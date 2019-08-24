@@ -1,8 +1,10 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
-  <h1>Welcome to {{ title }}!</h1>
+  <h1>{{ title }}</h1>
 </div>
 
-<canvas id="chart" width="1500" height="700"></canvas>
+<div *ngIf="chart">
+  <canvas id="chart" width="1500" height="600"></canvas>
+</div>
 
 <router-outlet></router-outlet>
