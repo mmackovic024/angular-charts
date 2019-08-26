@@ -1,9 +1,23 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
-  <h1>{{ title }}</h1>
+  <h1>Charts.js with Angular 8 demo</h1>
+  <h2>Historic temperatures and precipitations for Subotica, RS</h2>
 </div>
 
-<div *ngIf="chart">
+<div>
+  <form>
+    <select id="selectYear" (change)="onChange()">
+      <option *ngFor="let year of years" value="{{ year }}">{{ year }}</option>
+    </select>
+  </form>
+</div>
+
+<div *ngIf="!data">
+  <h1>Fetching data...</h1>
+</div>
+
+<div>
+  <!-- <h1>{{ selectedYear }}</h1> -->
   <canvas id="chart" width="1500" height="600"></canvas>
 </div>
 
