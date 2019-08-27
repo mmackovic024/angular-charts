@@ -2,16 +2,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 
-import { DataService } from './data.service';
+import { DataService } from './services/data.service';
 
 import { AppComponent } from './app.component';
+import { InfoComponent } from './components/info/info.component';
+import { SelectYearComponent } from './components/select-year/select-year.component';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, ReactiveFormsModule],
+  declarations: [AppComponent, InfoComponent, SelectYearComponent],
+  imports: [BrowserModule, HttpClientModule, ReactiveFormsModule],
   providers: [DataService],
   bootstrap: [AppComponent]
 })

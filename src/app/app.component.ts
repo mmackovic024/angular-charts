@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Chart } from 'chart.js';
-import { DataService } from './data.service';
+import { DataService } from './services/data.service';
+import { FilteredData } from './models/FilteredData';
 
 @Component({
   selector: 'app-root',
@@ -11,50 +12,61 @@ import { DataService } from './data.service';
 export class AppComponent implements OnInit {
   title = 'angular-charts';
   chart: any;
-  years = [];
-  selectedYear = '2019';
+  years: string[] = [];
+  selectedYear: string;
   data: any;
+  filteredData: FilteredData = {
+    max_temps: [],
+    min_temps: [],
+    precip: [],
+    chartLabels: []
+  };
   yearSelect = new FormControl('');
 
   constructor(private http: DataService) {}
 
   ngOnInit() {
     this.http.fetchData().subscribe(data => {
-      this.data = data;
-      this.createChart();
+      this.data = { ...data };
+      this.years = this.data.precip.reduce((years, day) => {
+        if (!years.includes(day.date.slice(11, 15))) {
+          years.push(day.date.slice(11, 15));
+        }
+        return years;
+      }, []);
+      this.selectedYear = this.years[this.years.length - 1];
       this.yearSelect.setValue(this.selectedYear);
+      this.filterData(this.selectedYear);
+      this.createChart();
     });
   }
 
-  createChart() {
-    let max_temps = this.data.temps
-      .filter(day => day.date.slice(11, 15) === this.selectedYear)
+  filterData(year: string): void {
+    this.filteredData.max_temps = this.data.temps
+      .filter(day => day.date.slice(11, 15) === year)
       .map(day => day.high);
-    let min_temps = this.data.temps
-      .filter(day => day.date.slice(11, 15) === this.selectedYear)
+    this.filteredData.min_temps = this.data.temps
+      .filter(day => day.date.slice(11, 15) === year)
       .map(day => day.low);
-    let dates = this.data.temps
-      .filter(day => day.date.slice(11, 15) === this.selectedYear)
+    this.filteredData.precip = this.data.precip
+      .filter(day => day.date.slice(11, 15) === year)
+      .map(day => day.precip);
+    this.filteredData.chartLabels = this.data.temps
+      .filter(day => day.date.slice(11, 15) === year)
       .map(day => {
         return day.date.slice(4, 15);
       });
-    let precip = this.data.precip
-      .filter(day => day.date.slice(11, 15) === this.selectedYear)
-      .map(day => day.precip);
-    this.years = this.data.precip.reduce((years, day) => {
-      if (!years.includes(day.date.slice(11, 15))) {
-        years.push(day.date.slice(11, 15));
-      }
-      return years;
-    }, []);
+  }
 
+  createChart(): void {
     const chartData = {
-      labels: dates,
+      labels: this.filteredData.chartLabels,
       datasets: [
         {
           type: 'line',
           label: 'Max temp',
-          data: max_temps,
+          data: this.filteredData.max_temps,
+          backgroundColor: 'red',
           borderColor: 'red',
           tension: 0,
           fill: false,
@@ -63,7 +75,8 @@ export class AppComponent implements OnInit {
         {
           type: 'line',
           label: 'Min temp',
-          data: min_temps,
+          data: this.filteredData.min_temps,
+          backgroundColor: 'blue',
           borderColor: 'blue',
           tension: 0,
           fill: false,
@@ -72,8 +85,9 @@ export class AppComponent implements OnInit {
         {
           type: 'bar',
           label: 'Precip',
-          data: precip,
+          data: this.filteredData.precip,
           backgroundColor: 'green',
+          borderColor: 'green',
           yAxisID: 'Y-right'
         }
       ]
@@ -128,9 +142,13 @@ export class AppComponent implements OnInit {
     });
   }
 
-  onChange() {
+  onChange(): void {
     this.selectedYear = this.yearSelect.value;
-    this.chart.destroy();
-    this.createChart();
+    this.filterData(this.selectedYear);
+    this.chart.data.labels = this.filteredData.chartLabels;
+    this.chart.data.datasets[0].data = this.filteredData.max_temps;
+    this.chart.data.datasets[1].data = this.filteredData.min_temps;
+    this.chart.data.datasets[2].data = this.filteredData.precip;
+    this.chart.update();
   }
 }

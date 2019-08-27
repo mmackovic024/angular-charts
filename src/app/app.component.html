@@ -15,8 +15,12 @@
   <h3>(be patient, it takes about 10-15 sec)</h3>
 </div>
 
-<div>
-  <canvas id="chart" width="1500" height="600"></canvas>
-</div>
+<app-info
+  *ngIf="filteredData.chartLabels.length > 0"
+  [data]="filteredData"
+  [year]="selectedYear"
+></app-info>
 
-<router-outlet></router-outlet>
+<div>
+  <canvas id="chart" width="1500" height="500"></canvas>
+</div>
