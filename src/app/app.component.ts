@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { Chart } from 'chart.js';
 import { DataService } from './services/data.service';
 import { FilteredData } from './models/FilteredData';
@@ -21,7 +20,6 @@ export class AppComponent implements OnInit {
     precip: [],
     chartLabels: []
   };
-  yearSelect = new FormControl('');
 
   constructor(private http: DataService) {}
 
@@ -35,7 +33,6 @@ export class AppComponent implements OnInit {
         return years;
       }, []);
       this.selectedYear = this.years[this.years.length - 1];
-      this.yearSelect.setValue(this.selectedYear);
       this.filterData(this.selectedYear);
       this.createChart();
     });
@@ -142,8 +139,8 @@ export class AppComponent implements OnInit {
     });
   }
 
-  onChange(): void {
-    this.selectedYear = this.yearSelect.value;
+  onChange(year: string): void {
+    this.selectedYear = year;
     this.filterData(this.selectedYear);
     this.chart.data.labels = this.filteredData.chartLabels;
     this.chart.data.datasets[0].data = this.filteredData.max_temps;

@@ -16,8 +16,6 @@ export class InfoComponent implements OnChanges {
   constructor() {}
 
   ngOnChanges() {
-    console.log(this.year);
-    console.log('CHANGED === ', Math.max(...this.data.max_temps));
     this.hotDays = this.data.max_temps.reduce((acc, temp) => {
       if (temp > 30) ++acc;
       return acc;

@@ -1,0 +1,6 @@
+<div [ngStyle]="{ visibility: availableYears.length > 0 ? 'visible' : 'hidden' }">
+  Select year:
+  <select (change)="selectYear()" [formControl]="yearSelector">
+    <option *ngFor="let year of availableYears" value="{{ year }}">{{ year }}</option>
+  </select>
+</div>

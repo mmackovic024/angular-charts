@@ -3,12 +3,12 @@
   <h2>Historic temperatures and precipitations for Subotica, RS</h2>
 </div>
 
-<div [ngStyle]="{ visibility: years.length > 0 ? 'visible' : 'hidden' }">
-  Select year:
-  <select id="selectYear" (change)="onChange()" [formControl]="yearSelect">
-    <option *ngFor="let year of years" value="{{ year }}">{{ year }}</option>
-  </select>
-</div>
+<app-select-year
+  [ngStyle]="{ visibility: years.length > 0 ? 'visible' : 'hidden' }"
+  [availableYears]="years"
+  (selectEvent)="onChange($event)"
+>
+</app-select-year>
 
 <div *ngIf="!data">
   <h1>Fetching data...</h1>
@@ -16,7 +16,7 @@
 </div>
 
 <app-info
-  *ngIf="filteredData.chartLabels.length > 0"
+  [ngStyle]="{ visibility: filteredData.chartLabels.length > 0 ? 'visible' : 'hidden' }"
   [data]="filteredData"
   [year]="selectedYear"
 ></app-info>
