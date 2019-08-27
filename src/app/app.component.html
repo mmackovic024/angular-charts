@@ -1,23 +1,21 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
-  <h1>Charts.js with Angular 8 demo</h1>
+  <h1>Chart.js with Angular 8 demo</h1>
   <h2>Historic temperatures and precipitations for Subotica, RS</h2>
 </div>
 
-<div>
-  <form>
-    <select id="selectYear" (change)="onChange()">
-      <option *ngFor="let year of years" value="{{ year }}">{{ year }}</option>
-    </select>
-  </form>
+<div [ngStyle]="{ visibility: years.length > 0 ? 'visible' : 'hidden' }">
+  Select year:
+  <select id="selectYear" (change)="onChange()" [formControl]="yearSelect">
+    <option *ngFor="let year of years" value="{{ year }}">{{ year }}</option>
+  </select>
 </div>
 
 <div *ngIf="!data">
   <h1>Fetching data...</h1>
+  <h3>(be patient, it takes about 10-15 sec)</h3>
 </div>
 
 <div>
-  <!-- <h1>{{ selectedYear }}</h1> -->
   <canvas id="chart" width="1500" height="600"></canvas>
 </div>
 

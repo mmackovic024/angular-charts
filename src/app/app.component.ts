@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from './data.service';
+import { FormControl } from '@angular/forms';
 import { Chart } from 'chart.js';
+import { DataService } from './data.service';
 
 @Component({
   selector: 'app-root',
@@ -12,18 +13,16 @@ export class AppComponent implements OnInit {
   chart: any;
   years = [];
   selectedYear = '2019';
-  selectEl: any;
   data: any;
+  yearSelect = new FormControl('');
 
   constructor(private http: DataService) {}
 
   ngOnInit() {
     this.http.fetchData().subscribe(data => {
-      this.selectEl = document.querySelector('#selectYear');
       this.data = data;
       this.createChart();
-      // this.selectEl.value = this.selectedYear;
-      setTimeout(() => (this.selectEl.value = this.selectedYear), 1);
+      this.yearSelect.setValue(this.selectedYear);
     });
   }
 
@@ -94,7 +93,6 @@ export class AppComponent implements OnInit {
         yAxes: [
           {
             id: 'Y-left',
-            // type: 'linear',
             position: 'left',
             display: true,
             scaleLabel: {
@@ -108,7 +106,6 @@ export class AppComponent implements OnInit {
           },
           {
             id: 'Y-right',
-            // type: 'linear',
             position: 'right',
             display: true,
             scaleLabel: {
@@ -124,9 +121,7 @@ export class AppComponent implements OnInit {
       }
     };
 
-    const ctx = document.getElementById('chart');
-
-    this.chart = new Chart(ctx, {
+    this.chart = new Chart('chart', {
       type: 'bar',
       data: chartData,
       options: chartOptions
@@ -134,7 +129,7 @@ export class AppComponent implements OnInit {
   }
 
   onChange() {
-    this.selectedYear = this.selectEl.value;
+    this.selectedYear = this.yearSelect.value;
     this.chart.destroy();
     this.createChart();
   }
