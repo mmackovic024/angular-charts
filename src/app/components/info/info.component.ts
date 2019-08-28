@@ -1,14 +1,24 @@
 import { Component, OnChanges, Input } from '@angular/core';
+import { trigger, style, transition, animate } from '@angular/animations';
 import { FilteredData } from '../../models/FilteredData';
 
 @Component({
   selector: 'app-info',
   templateUrl: './info.component.html',
-  styleUrls: ['./info.component.scss']
+  styleUrls: ['./info.component.scss'],
+  animations: [
+    trigger('animation', [
+      transition('* <=> *', [
+        style({ opacity: 0, transform: 'scale(0.95)' }),
+        animate('1000ms ease-out')
+      ])
+    ])
+  ]
 })
 export class InfoComponent implements OnChanges {
   @Input() data: FilteredData;
   @Input() year: string;
+  prevYear: string = '';
   hotDays: number;
   coldDays: number;
   rainyDays: number;
@@ -28,5 +38,6 @@ export class InfoComponent implements OnChanges {
       if (prec > 0) ++acc;
       return acc;
     }, 0);
+    this.prevYear = this.year;
   }
 }

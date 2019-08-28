@@ -1,6 +1,6 @@
-<div>
+<div [@animation]="year">
   <h4>
-    {{ data.max_temps.length }} days in {{ year }}.:
+    Available data for {{ data.max_temps.length }} days in {{ year }}.:
     <span style="color: red"> {{ hotDays }} days above 30°C,</span>
     <span style="color: blue"> {{ coldDays }} days below -5°C,</span>
     <span style="color: green"> {{ rainyDays }} days with rain/snow</span>

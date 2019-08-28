@@ -50,9 +50,7 @@ export class AppComponent implements OnInit {
       .map(day => day.precip);
     this.filteredData.chartLabels = this.data.temps
       .filter(day => day.date.slice(11, 15) === year)
-      .map(day => {
-        return day.date.slice(4, 15);
-      });
+      .map(day => day.date.slice(4, 15));
   }
 
   createChart(): void {
@@ -81,7 +79,7 @@ export class AppComponent implements OnInit {
         },
         {
           type: 'bar',
-          label: 'Precip',
+          label: 'Precipitation',
           data: this.filteredData.precip,
           backgroundColor: 'green',
           borderColor: 'green',
@@ -98,17 +96,24 @@ export class AppComponent implements OnInit {
       scales: {
         xAxes: [
           {
+            gridLines: {
+              borderDash: [2, 2],
+              lineWidth: 2
+            },
             display: true
           }
         ],
         yAxes: [
           {
+            gridLines: {
+              borderDash: [2, 2]
+            },
             id: 'Y-left',
             position: 'left',
             display: true,
             scaleLabel: {
               display: true,
-              labelString: 'temp in °C'
+              labelString: 'temperature in °C'
             },
             ticks: {
               min: -30,
@@ -116,12 +121,15 @@ export class AppComponent implements OnInit {
             }
           },
           {
+            gridLines: {
+              borderDash: [2, 2]
+            },
             id: 'Y-right',
             position: 'right',
             display: true,
             scaleLabel: {
               display: true,
-              labelString: 'precip in mm'
+              labelString: 'precipitation in mm'
             },
             ticks: {
               min: 0,
