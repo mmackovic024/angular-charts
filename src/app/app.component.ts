@@ -13,9 +13,9 @@ export class AppComponent implements OnInit {
   selectedYear: string;
   data: any;
   filteredData: FilteredData = {
-    max_temps: [],
-    min_temps: [],
-    precip: [],
+    max_temps: [{ x: '', y: 0 }],
+    min_temps: [{ x: '', y: 0 }],
+    precip: [{ x: '', y: 0 }],
     chartLabels: []
   };
 
@@ -38,16 +38,16 @@ export class AppComponent implements OnInit {
   filterData(year: string): void {
     this.filteredData.max_temps = this.data.temps
       .filter(day => day.date.slice(11, 15) === year)
-      .map(day => day.high);
+      .map(day => ({ x: new Date(day.date), y: day.high }));
     this.filteredData.min_temps = this.data.temps
       .filter(day => day.date.slice(11, 15) === year)
-      .map(day => day.low);
+      .map(day => ({ x: new Date(day.date), y: day.low }));
     this.filteredData.precip = this.data.precip
       .filter(day => day.date.slice(11, 15) === year)
-      .map(day => day.precip);
+      .map(day => ({ x: new Date(day.date), y: day.precip }));
     this.filteredData.chartLabels = this.data.temps
       .filter(day => day.date.slice(11, 15) === year)
-      .map(day => day.date.slice(4, 15));
+      .map(day => new Date(day.date));
   }
 
   onChange(year: string): void {

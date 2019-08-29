@@ -1,6 +1,6 @@
 export class FilteredData {
-  max_temps: number[];
-  min_temps: number[];
-  precip: number[];
+  max_temps: [{ x: string; y: number }];
+  min_temps: [{ x: string; y: number }];
+  precip: [{ x: string; y: number }];
   chartLabels: string[];
 }

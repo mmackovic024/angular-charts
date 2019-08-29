@@ -26,15 +26,15 @@ export class InfoComponent implements OnChanges {
 
   ngOnChanges() {
     this.hotDays = this.data.max_temps.reduce((acc, temp) => {
-      if (temp > 30) ++acc;
+      if (temp.y > 30) ++acc;
       return acc;
     }, 0);
     this.coldDays = this.data.min_temps.reduce((acc, temp) => {
-      if (temp < -5) ++acc;
+      if (temp.y < -5) ++acc;
       return acc;
     }, 0);
     this.rainyDays = this.data.precip.reduce((acc, prec) => {
-      if (prec > 0) ++acc;
+      if (prec.y > 0) ++acc;
       return acc;
     }, 0);
   }

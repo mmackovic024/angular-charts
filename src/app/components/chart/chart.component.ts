@@ -14,7 +14,7 @@ export class ChartComponent implements OnInit, OnChanges {
 
   constructor() {}
 
-  ngOnChanges(changes) {
+  ngOnChanges() {
     if (this.data.chartLabels.length > 0 && this.chart) this.updateChart();
     if (this.data.chartLabels.length > 0 && !this.chart) this.createChart();
   }
@@ -64,6 +64,13 @@ export class ChartComponent implements OnInit, OnChanges {
       scales: {
         xAxes: [
           {
+            type: 'time',
+            time: {
+              displayFormats: {
+                month: 'MMM'
+              },
+              tooltipFormat: 'MMM DD, YYYY'
+            },
             gridLines: {
               borderDash: [2, 2],
               lineWidth: 2
