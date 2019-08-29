@@ -1,12 +1,12 @@
 <div style="text-align:center">
   <h1>Chart.js with Angular 8 demo</h1>
-  <h2>Historic temperatures and precipitations for Subotica, RS</h2>
+  <h2>Historic temperature and precipitation chart for Subotica, RS</h2>
 </div>
 
 <app-select-year
   [ngStyle]="{ visibility: years.length > 0 ? 'visible' : 'hidden' }"
   [availableYears]="years"
-  (selectEvent)="onChange($event)"
+  (selectedYearEvent)="onChange($event)"
 >
 </app-select-year>
 
@@ -21,6 +21,4 @@
   [year]="selectedYear"
 ></app-info>
 
-<div>
-  <canvas id="chart" width="1500" height="500"></canvas>
-</div>
+<app-chart [data]="filteredData" [year]="selectedYear"></app-chart>

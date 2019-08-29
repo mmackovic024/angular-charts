@@ -18,7 +18,6 @@ import { FilteredData } from '../../models/FilteredData';
 export class InfoComponent implements OnChanges {
   @Input() data: FilteredData;
   @Input() year: string;
-  prevYear: string = '';
   hotDays: number;
   coldDays: number;
   rainyDays: number;
@@ -38,6 +37,5 @@ export class InfoComponent implements OnChanges {
       if (prec > 0) ++acc;
       return acc;
     }, 0);
-    this.prevYear = this.year;
   }
 }

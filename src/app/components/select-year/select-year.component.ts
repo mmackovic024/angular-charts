@@ -8,7 +8,7 @@ import { FormControl } from '@angular/forms';
 })
 export class SelectYearComponent implements OnChanges {
   @Input() availableYears: string[];
-  @Output() selectEvent = new EventEmitter<string>();
+  @Output() selectedYearEvent = new EventEmitter<string>();
   yearSelector = new FormControl('');
 
   constructor() {}
@@ -18,6 +18,6 @@ export class SelectYearComponent implements OnChanges {
   }
 
   selectYear() {
-    this.selectEvent.emit(this.yearSelector.value);
+    this.selectedYearEvent.emit(this.yearSelector.value);
   }
 }

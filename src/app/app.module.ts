@@ -10,9 +10,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DataService } from './services/data.service';
 
 import { NgModule } from '@angular/core';
+import { ChartComponent } from './components/chart/chart.component';
 
 @NgModule({
-  declarations: [AppComponent, InfoComponent, SelectYearComponent],
+  declarations: [AppComponent, InfoComponent, SelectYearComponent, ChartComponent],
   imports: [BrowserModule, BrowserAnimationsModule, HttpClientModule, ReactiveFormsModule],
   providers: [DataService],
   bootstrap: [AppComponent]
