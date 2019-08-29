@@ -6,3 +6,6 @@ uses back-end from [https://github.com/mmackovic024/scraping-test](https://githu
 - SASS styling
 - Chart.js
 - Angular 8
+- Angular animations
+
+[Live app](https://mmackovic024.github.io/angular-charts/)
